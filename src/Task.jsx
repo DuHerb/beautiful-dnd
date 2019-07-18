@@ -6,13 +6,25 @@ const Container = styled.div`
     border: 1px solid grey;
     padding: 8px;
     margin-bottom: 8px;
-    borderRadius: 4px;`;
+    background-color: ${props => (props.isDragging ? 'lightgreen' : 'white')}
+    borderRadius: 4px;
+    display: flex;`;
 
     const box = {
       border: '1px solid grey',
       padding: 8,
       marginBottom: 8,
       borderRadius: 4
+    }
+
+    const styles = {
+      handle: {
+        width: 20,
+        height: 20,
+        backgroundColor: 'orange',
+        borderRadius: 4,
+        marginRight: 8
+      }
     }
 
 
@@ -31,12 +43,15 @@ export default class Task extends React.Component {
         draggableId={this.props.task.id}
         index={this.props.index}
       >
-        {(provided)=>(
+        {(provided, snapshot)=>(
           <Container
             {...provided.draggableProps}
-            {...provided.dragHandleProps}
             ref={provided.innerRef}
+            isDragging={snapshot.isDragging}
           >
+            <div style={styles.handle}
+              {...provided.dragHandleProps}
+            />
             <p>{this.props.task.content}</p>
           </Container>
         )}
