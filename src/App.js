@@ -10,7 +10,7 @@ export default class App extends React.Component {
 
   onDragStart = () => {
     document.body.style.color = 'orange';
-    document.body.style.trasitions = 'background-color 0.2s ease'
+    // document.body.style.trasitions = 'background-color 0.2s ease'
   }
 
   onDragUpdate = update => {
