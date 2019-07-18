@@ -1,34 +1,45 @@
 import React from 'react'
 import Task from './Task'
+import { Droppable } from 'react-beautiful-dnd'
+import styled from 'styled-components'
 
-const styles = {
-  container: {
-    margin: 8,
-    border: '1px solid gray',
-    borderRadius: 4
-  },
-  title: {
-    padding: 8
-  },
-  taskList: {
-    padding: 8
+const Container = styled.div`margin: 8px; border: 1px solid gray; border-radius: 2px;`;
+const Title = styled.div`padding: 8px`;
+const TaskList = styled.div`padding: 8px`
+
+
+
+export default class Column extends React.Component{
+  constructor(props) {
+    super(props);
+    this.myRef = React.createRef();
+  }
+  render() {
+    console.log("droppableId: ", this.props.column.id);
+    
+    return (
+      // <div>testing container id</div>
+      <Container>
+        <Title>{this.props.column.title}</Title>
+        <Droppable droppableId={this.props.column.id}>
+          {(provided) => (
+            <TaskList
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              {this.props.tasks.map((task, index) =>
+                <Task
+                  key={task.id}
+                  task={task}
+                  index={index}
+                />
+                )}
+              {provided.placeholder}
+            </TaskList>
+          )}
+        </Droppable>
+      </Container>
+    )
   }
 }
 
-const Column = ({column, tasks, key}) => {
-  return (
-    <div style={styles.container}>
-      <p style={styles.title}>{column.title}</p>
-      <div style={styles.taskList}>
-        {tasks.map((task) =>
-          <Task
-            key={task.id}
-            task={task}
-          />
-        )}
-      </div>
-    </div>
-  )
-}
-
-export default Column
